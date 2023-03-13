@@ -47,10 +47,8 @@ export const DeleteTodolist = () => {
 
     useEffect(() => {
             const todolistId = '91d8c754-dbc6-4454-aa16-478da0199049'
-            todolistAPI.deleteTodolist(todolistId).then((res) => {
-
-                setState(res.data)
-
+            todolistAPI.deleteTodolist(todolistId).then((res)=>{
+                setState(res.data);
             })
         }
 

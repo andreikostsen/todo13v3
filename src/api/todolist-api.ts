@@ -31,8 +31,8 @@ export const todolistAPI = {
     deleteTodolist(todolistId: string) {
         const promise = axios.delete(
             `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,
-            {todolistId: todolistId},
             settings
+
         )
         return promise
     },
