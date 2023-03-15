@@ -18,6 +18,7 @@ export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
 todolistAPI.getTodolist().then((res) => {
+    debugger;
     setState(res.data);
 
 })
@@ -68,4 +69,50 @@ export const UpdateTodolistTitle = () => {
 
     return <div> {JSON.stringify(state)}</div>
 }
+
+
+export const GetTasks = () => {
+    const [state, setState] = useState<any>(null)
+
+    useEffect(()=> {
+
+        const todolistId = '0e79168c-be4f-4612-9188-da48db500ce3'
+
+        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, settings)
+            .then((res) => {
+
+
+                setState(res.data)
+            })
+    },[])
+
+        return <div> {JSON.stringify(state)}</div>
+
+        }
+
+
+        export const CreateTask = () => {
+
+            const [state, setState] = useState<any>(null)
+
+
+            useEffect(()=> {
+
+                const todolistId = '0e79168c-be4f-4612-9188-da48db500ce3'
+                const title = "learn react"
+
+                todolistAPI.createTask(todolistId, title).then((res)=>{
+
+                    setState(res.data)
+
+                })
+            },[])
+
+            return <div> {JSON.stringify(state)}</div>
+
+
+        }
+
+
+
 

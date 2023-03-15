@@ -46,7 +46,25 @@ export const todolistAPI = {
         return promise
     },
 
+    getTasks(todolistId: string) {
+        const promise = axios.get(
+            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
+            settings
+        )
+        return promise
 
+    },
+
+    createTask(todolistId: string, title: string) {
+
+        const promise = axios.post(
+            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
+            {title: title},
+            settings
+
+        )
+        return promise
+    }
 
 
 }
