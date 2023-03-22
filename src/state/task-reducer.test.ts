@@ -2,7 +2,7 @@
 import {TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodolistAC, todolistsReducer} from "./todolists-reducer";
+import {addTodolistAC, setTodolistsAC, todolistsReducer} from "./todolists-reducer";
 
 
 
@@ -78,5 +78,24 @@ test("empty tasks array should be added when we add new todolist", ()=>{
 
 expect(todolistsEndState.length).toBe(3)
     expect(tasksEndState[todolistsEndState[0].id]).toStrictEqual([])
+    expect(todolistsEndState[1].title).toBe("What to 1")
+
+})
+
+
+test("empty task arrays should be created when we set todolists", ()=>{
+
+    const startState: Array<TodolistType>= [
+        {id: v1(), title: "What to 1", filter: "all"},
+        {id: v1(), title: "What to 2", filter: "active"}
+    ]
+
+    let tasksEndState = tasksReducer({}, setTodolistsAC(startState))
+
+    const keys = Object.keys(tasksEndState)
+
+    expect(tasksEndState[startState[0].id]).toStrictEqual([])
+    expect(tasksEndState[startState[1].id]).toStrictEqual([])
+    expect(keys.length).toBe(2)
 
 })
