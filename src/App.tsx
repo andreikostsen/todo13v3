@@ -14,13 +14,12 @@ import { Menu } from '@mui/icons-material';
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, fetchTodolistsThunk,
     removeTodolistAC, setTodolistsAC, TodolistDomainType
 } from './state/todolists-reducer';
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
-import {todolistAPI} from "./api/todolist-api";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -42,13 +41,10 @@ function App() {
     const dispatch = useDispatch();
 
 useEffect(()=>{
-    todolistAPI.getTodolist()
-        .then(res =>{
 
-            const action = setTodolistsAC(res.data);
-            dispatch(action)
-        }
-    )
+    // @ts-ignore
+    dispatch(fetchTodolistsThunk)
+
 },[])
 
 
