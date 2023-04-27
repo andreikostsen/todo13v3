@@ -17,7 +17,7 @@ type TodolistResponseType<D = {}> = {
 
 }
 
-type TaskType = {
+export type TaskType = {
         id: string,
         title: string,
         description: string,
