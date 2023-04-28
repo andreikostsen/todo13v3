@@ -1,7 +1,14 @@
 
 import {TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer
+} from "./tasks-reducer";
 import {addTodolistAC, setTodolistsAC, todolistsReducer} from "./todolists-reducer";
 
 
@@ -11,14 +18,79 @@ const todoListID2 = v1();
 
 const state: TasksStateType = {
     [todoListID1]: [
-        {id: v1(), isDone: true, title: "HTML&CSS"},
-        {id: v1(), isDone: true, title: "JS"},
-        {id: v1(), isDone: false, title: "React"},
+        {
+            id: v1(),
+            status: 1,
+            title: "HTML&CSS",
+            description: "",
+            todoListId: todoListID1,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        },
+        {
+            id: v1(),
+            status: 1,
+            title: "JS",
+            description: "",
+            todoListId: todoListID1,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        },
+        {
+            id: v1(),
+            status: 0,
+            title: "React",
+            description: "",
+            todoListId: todoListID1,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        },
+
     ],
     [todoListID2]: [
-        {id: v1(), isDone: true, title: "HTML&CSS"},
-        {id: v1(), isDone: true, title: "JS"},
-        {id: v1(), isDone: false, title: "React"},
+        {
+            id: v1(),
+            status: 1,
+            title: "HTML&CSS",
+            description: "",
+            todoListId: todoListID2,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        }, {
+            id: v1(),
+            status: 1,
+            title: "JS",
+            description: "",
+            todoListId: todoListID2,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        }, {
+            id: v1(),
+            status: 0,
+            title: "CSS",
+            description: "",
+            todoListId: todoListID2,
+            order: 0,
+            priority: 0,
+            startDate: "",
+            deadline: "",
+            addedDate: ""
+        },
     ]
 }
 
@@ -54,11 +126,11 @@ test("task reducer should change task title", ()=>{
 
 })
 
-let endState3 = tasksReducer(state, changeTaskStatusAC(state[todoListID2][2].id, state[todoListID2][2].isDone,todoListID2))
+let endState3 = tasksReducer(state, changeTaskStatusAC(state[todoListID2][2].id, state[todoListID2][2].status,todoListID2))
 
-test("task reducer should change task title", ()=>{
+test("task reducer should change task status", ()=>{
 
-    expect(endState3[todoListID2][2].isDone).toBe(true)
+    expect(endState3[todoListID2][2].status).toBe(1)
 
 })
 
@@ -97,5 +169,13 @@ test("empty task arrays should be created when we set todolists", ()=>{
     expect(tasksEndState[startState[0].id]).toStrictEqual([])
     expect(tasksEndState[startState[1].id]).toStrictEqual([])
     expect(keys.length).toBe(2)
+
+})
+
+test("correct tasks should be setted", ()=>{
+
+    let tasksEnsState = tasksReducer({}, setTasksAC(state[todoListID1], todoListID1))
+
+    expect(tasksEnsState[todoListID1].length).toBe(3)
 
 })
