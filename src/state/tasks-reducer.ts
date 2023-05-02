@@ -48,6 +48,8 @@ type ActionsType = RemoveTaskActionType | AddTaskActionType
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+
+
     switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
@@ -140,13 +142,17 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistId: string): SetTasks
     return {type: 'SET-TASKS', tasks, todolistId}
 }
 
-export const fetchTasksThunk = (dispatch: Dispatch, todolistId: string) => {
-    todolistAPI.getTasks(todolistId)
-        .then((res) => {
-            const tasks = res.data
-            dispatch(setTasksAC(tasks, todolistId))
-        })
+export const fetchTasksTC =  (todolistId: string) =>
+    (dispatch: Dispatch) => {
+            todolistAPI.getTasks(todolistId)
+                .then((res) => {
+                    const tasks = res.data.items
+                    dispatch(setTasksAC(tasks, todolistId))
+
+                })
 }
+
+
 
 
 

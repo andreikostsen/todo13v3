@@ -1,5 +1,5 @@
 
-import {TasksStateType, TodolistType} from "../App";
+import {FilterValuesType, TasksStateType} from "../App";
 import {v1} from "uuid";
 import {
     addTaskAC,
@@ -9,7 +9,8 @@ import {
     setTasksAC,
     tasksReducer
 } from "./tasks-reducer";
-import {addTodolistAC, setTodolistsAC, todolistsReducer} from "./todolists-reducer";
+import {addTodolistAC, setTodolistsAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {TodolistType} from "../api/todolist-api";
 
 
 
@@ -137,9 +138,9 @@ test("task reducer should change task status", ()=>{
 
 test("empty tasks array should be added when we add new todolist", ()=>{
 
-    const startState: Array<TodolistType>= [
-        {id: v1(), title: "What to 1", filter: "all"},
-        {id: v1(), title: "What to 2", filter: "active"}
+    const startState: Array<TodolistDomainType>= [
+        {id: v1(), title: "What to 1", addedDate: "", order: 0, filter: "all"},
+        {id: v1(), title: "What to 2", addedDate: "", order: 1,  filter: "all"}
     ]
 
 
@@ -158,8 +159,8 @@ expect(todolistsEndState.length).toBe(3)
 test("empty task arrays should be created when we set todolists", ()=>{
 
     const startState: Array<TodolistType>= [
-        {id: v1(), title: "What to 1", filter: "all"},
-        {id: v1(), title: "What to 2", filter: "active"}
+        {id: v1(), title: "What to 1", addedDate: "", order: 0},
+        {id: v1(), title: "What to 2", addedDate: "", order: 1}
     ]
 
     let tasksEndState = tasksReducer({}, setTodolistsAC(startState))
@@ -177,5 +178,6 @@ test("correct tasks should be setted", ()=>{
     let tasksEnsState = tasksReducer({}, setTasksAC(state[todoListID1], todoListID1))
 
     expect(tasksEnsState[todoListID1].length).toBe(3)
+    expect(tasksEnsState[todoListID1][0].title).toEqual("HTML&CSS")
 
 })

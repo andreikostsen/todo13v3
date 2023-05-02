@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {TodolistDomainType} from "../state/todolists-reducer";
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     addedDate: string
     order: number
@@ -38,6 +38,14 @@ export type TaskType = {
 
     }
 
+type GetTasksResponseType = {
+
+    items: Array<TaskType>,
+    totalCount: number,
+    error: string | null
+
+}
+
 
 
 
@@ -55,7 +63,7 @@ const instance = axios.create(
 export const todolistAPI = {
 
     getTodolist() {
-        const promise = instance.get<Array<TodolistDomainType>>(
+        const promise = instance.get<Array<TodolistType>>(
             `todo-lists`
         )
         return promise
@@ -89,12 +97,14 @@ export const todolistAPI = {
     },
 
     getTasks(todolistId: string) {
-        const promise = instance.get<Array<TaskType>>(
+        const promise = instance.get<GetTasksResponseType>(
             `/todo-lists/${todolistId}/tasks`,
         )
         return promise
 
     },
+
+
 
     createTask(todolistId: string, title: string) {
 
