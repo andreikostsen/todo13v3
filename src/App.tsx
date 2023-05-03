@@ -17,10 +17,17 @@ import {
     changeTodolistTitleAC, fetchTodolistsTC,
     removeTodolistAC, setTodolistsAC, TodolistDomainType
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC} from './state/tasks-reducer';
+import {
+    addTaskAC,
+    addTasksTC,
+    changeTaskStatusAC,
+    changeTaskTitleAC, deleteTasksTC,
+    fetchTasksTC,
+    removeTaskAC
+} from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
-import {TaskType} from "./api/todolist-api";
+import {TaskType, todolistAPI} from "./api/todolist-api";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -54,17 +61,41 @@ useEffect(()=>{
 
 },[])
 
+    //
+    // useEffect(()=>{
+    //
+    //     // @ts-ignore
+    //     dispatch(addTasksTC(title, props.id))
+    // },[])
 
+    // useEffect(()=>{
+    //
+    //     // @ts-ignore
+    //     dispatch(deleteTasksTC(props.task.id, props.todolistId))
+    // },[])
 
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
-        const action = removeTaskAC(id, todolistId);
-        dispatch(action);
+        // @ts-ignore
+        dispatch(deleteTasksTC(id, todolistId))
+        // todolistAPI.deleteTask(todolistId, id)
+        //     .then((res) => {
+        //
+        //         dispatch(removeTaskAC(id, todolistId))
+        //
+        //     })
+
+        //
+        // const action = removeTaskAC(id, todolistId);
+        // dispatch(action);
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
-        dispatch(action);
+        // @ts-ignore
+        dispatch(addTasksTC(title, todolistId))
+
+        // const action = addTaskAC(title, todolistId);
+        // dispatch(action);
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: number, todolistId: string) {
