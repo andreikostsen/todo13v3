@@ -17,7 +17,7 @@ const startState: Array<TodolistDomainType>= [
 
 
 
-const endState = todolistsReducer(startState, addTodolistAC("What to 3"))
+const endState = todolistsReducer(startState, addTodolistAC({id: v1(), title: "What to 3", addedDate: "", order: 1}))
 
 test("todolist reducer should add todolist", ()=> {
 

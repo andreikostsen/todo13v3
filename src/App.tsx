@@ -12,10 +12,10 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Menu } from '@mui/icons-material';
 import {
-    addTodolistAC,
+    addTodolistAC, addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleAC, fetchTodolistsTC,
-    removeTodolistAC, setTodolistsAC, TodolistDomainType
+    removeTodolistAC, removeTodolistTC, setTodolistsAC, TodolistDomainType
 } from './state/todolists-reducer';
 import {
     addTaskAC,
@@ -51,6 +51,8 @@ function App() {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
 
 
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+
     const dispatch = useDispatch();
 
 useEffect(()=>{
@@ -78,24 +80,14 @@ useEffect(()=>{
     const removeTask = useCallback(function (id: string, todolistId: string) {
         // @ts-ignore
         dispatch(deleteTasksTC(id, todolistId))
-        // todolistAPI.deleteTask(todolistId, id)
-        //     .then((res) => {
-        //
-        //         dispatch(removeTaskAC(id, todolistId))
-        //
-        //     })
 
-        //
-        // const action = removeTaskAC(id, todolistId);
-        // dispatch(action);
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
         // @ts-ignore
         dispatch(addTasksTC(title, todolistId))
 
-        // const action = addTaskAC(title, todolistId);
-        // dispatch(action);
+
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: number, todolistId: string) {
@@ -114,8 +106,13 @@ useEffect(()=>{
     }, []);
 
     const removeTodolist = useCallback(function (id: string) {
-        const action = removeTodolistAC(id);
-        dispatch(action);
+
+        const thunk = removeTodolistTC(id)
+       // @ts-ignore
+        dispatch(thunk)
+
+        // const action = removeTodolistAC(id);
+        // dispatch(action);
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
@@ -124,8 +121,9 @@ useEffect(()=>{
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action);
+        const thunk = addTodolistTC(title);
+        // @ts-ignore
+        dispatch(thunk);
     }, [dispatch]);
 
     return (
