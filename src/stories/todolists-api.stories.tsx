@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from "axios";
-import { todolistAPI } from '../api/todolist-api';
+import {TaskPriorities, TaskStatuses, todolistAPI, UpdateTaskModelType} from '../api/todolist-api';
 
 export default {
     title: 'API'
@@ -133,17 +132,13 @@ export const GetTasks = () => {
         export const CreateTask = () => {
 
             const [state, setState] = useState<any>(null)
-
-
             const [todolistId, setTodolistId] = useState<string>("")
             const [taskTitle, setTaskTitle] = useState<string>("")
 
 
             const onClickHandler = () => {
                 todolistAPI.createTask(todolistId, taskTitle).then((res)=>{
-
                     setState(res.data)
-
                 })
             }
 
@@ -166,13 +161,23 @@ export const UpdateTask = () => {
 
     useEffect(()=> {
 
-        const todolistId = '0e79168c-be4f-4612-9188-da48db500ce3'
-        const taskId = "7a7f53b8-369a-4367-affc-374bcab4d5ea"
-        const title = "improve react"
+        const model:UpdateTaskModelType = {
+            title: "improve react",
+            description: "",
+            status: TaskStatuses.Completed,
+            priority: TaskPriorities.Hi,
+            startDate: '',
+            deadline: ''
+        }
 
-        todolistAPI.updateTask(todolistId, taskId, title).then((res)=>{
 
-            setState(res.data)
+        const todolistId = 'f0bf3f88-71a7-43d2-9d0b-3b1fbe2727e1'
+        const taskId = "bdf92781-77ed-4df5-9777-bb92315766b5"
+
+
+        todolistAPI.updateTask(todolistId, taskId, model).then((res)=>{
+
+            setState(res.data.data.item)
 
         })
     },[])
