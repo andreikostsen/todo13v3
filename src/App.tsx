@@ -14,7 +14,7 @@ import { Menu } from '@mui/icons-material';
 import {
     addTodolistTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistsTC,
+    changeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC,
     removeTodolistTC, TodolistDomainType
 } from './state/todolists-reducer';
 import {
@@ -127,8 +127,10 @@ useEffect(()=>{
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
-        dispatch(action);
+        const thunk = changeTodolistTitleTC(id, title);
+
+        // @ts-ignore
+        dispatch(thunk);
     }, []);
 
     const addTodolist = useCallback((title: string) => {
