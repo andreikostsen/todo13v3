@@ -21,7 +21,7 @@ import {
 
     addTasksTC,
      deleteTasksTC,
-    changeTaskStatusTC, changeTaskTitleTC
+    updateTaskTC
 
 } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,15 +30,7 @@ import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
-// export type TodolistType = {
-//     id: string
-//     title: string
-//     filter: FilterValuesType
-// }
 
-// export type TasksStateType = {
-//     [key: string]: Array<TaskType>
-// }
 
 export type TasksStateType = {
 [todolistId: string]: Array<TaskType>
@@ -65,19 +57,6 @@ useEffect(()=>{
 
 
 
-    //
-    // useEffect(()=>{
-    //
-    //     // @ts-ignore
-    //     dispatch(addTasksTC(title, props.id))
-    // },[])
-
-    // useEffect(()=>{
-    //
-    //     // @ts-ignore
-    //     dispatch(deleteTasksTC(props.task.id, props.todolistId))
-    // },[])
-
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         // @ts-ignore
@@ -95,17 +74,19 @@ useEffect(()=>{
     const changeTaskStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
 
         // @ts-ignore
-         dispatch(changeTaskStatusTC(id, status, todolistId))
+         dispatch(updateTaskTC(id, {status}, todolistId))
 
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
         // @ts-ignore
-        dispatch(changeTaskTitleTC(id, newTitle, todolistId))
+        dispatch(updateTaskTC(id, {title: newTitle}, todolistId))
 
         // const action = changeTaskTitleAC(id, newTitle, todolistId);
         // dispatch(action);
     }, []);
+
+
 
 
 

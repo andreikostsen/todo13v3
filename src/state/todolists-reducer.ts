@@ -71,9 +71,6 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return [...state]
         }
         case 'SET-TODOLISTS': {
-
-
-
             return action.todolists
         }
 
@@ -134,22 +131,12 @@ export const addTodolistTC = (title: string) => {
 }
 
 export const changeTodolistTitleTC = (todolistId: string, title: string) => {
-
    return (dispatch: Dispatch) => {
-
         todolistAPI.updateTodolist(todolistId, title)
             .then((res) => {
-
                 dispatch(changeTodolistTitleAC(todolistId, title))
-
             })
-
-
-
     }
-
-
-
 }
 
 

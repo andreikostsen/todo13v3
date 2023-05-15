@@ -1,17 +1,8 @@
-
-import {FilterValuesType, TasksStateType} from "../App";
+import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC,
-    setTasksAC,
-    tasksReducer
-} from "./tasks-reducer";
+import {removeTaskAC, setTasksAC, tasksReducer, UpdateTaskAC} from "./tasks-reducer";
 import {addTodolistAC, setTodolistsAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
-import {TodolistType} from "../api/todolist-api";
-
+import {TaskStatuses, TaskType, TodolistType} from "../api/todolist-api";
 
 
 const todoListID1 = v1();
@@ -60,7 +51,7 @@ const state: TasksStateType = {
     [todoListID2]: [
         {
             id: v1(),
-            status: 1,
+            status: TaskStatuses.New,
             title: "HTML&CSS",
             description: "",
             todoListId: todoListID2,
@@ -71,7 +62,7 @@ const state: TasksStateType = {
             addedDate: ""
         }, {
             id: v1(),
-            status: 1,
+            status: TaskStatuses.New,
             title: "JS",
             description: "",
             todoListId: todoListID2,
@@ -82,7 +73,7 @@ const state: TasksStateType = {
             addedDate: ""
         }, {
             id: v1(),
-            status: 0,
+            status: TaskStatuses.New,
             title: "CSS",
             description: "",
             todoListId: todoListID2,
@@ -119,7 +110,26 @@ test("task reducer should remove task", ()=>{
 })
 
 
-let endState2 = tasksReducer(state, changeTaskTitleAC(state[todoListID2][0].id, "HTML&CSS&SASS", todoListID2 ) )
+
+const model:TaskType =
+    {
+        id: v1(),
+        status: TaskStatuses.Completed,
+        title: "HTML&CSS&SASS",
+        description: "",
+        todoListId: todoListID2,
+        order: 0,
+        priority: 0,
+        startDate: "",
+        deadline: "",
+        addedDate: ""
+    }
+
+
+
+
+let endState2 = tasksReducer(state, UpdateTaskAC(todoListID2, state[todoListID2][0].id, model  ) )
+
 
 test("task reducer should change task title", ()=>{
 
@@ -127,11 +137,12 @@ test("task reducer should change task title", ()=>{
 
 })
 
-let endState3 = tasksReducer(state, changeTaskStatusAC(state[todoListID2][2].id, state[todoListID2][2].status,todoListID2))
+let endState3 = tasksReducer(state, UpdateTaskAC(todoListID2, state[todoListID2][2].id, model))
 
 test("task reducer should change task status", ()=>{
 
-    expect(endState3[todoListID2][2].status).toBe(1)
+    expect(endState3[todoListID2][2].status).toBe(TaskStatuses.Completed)
+    expect(endState3[todoListID2][0].status).toBe(TaskStatuses.New)
 
 })
 
