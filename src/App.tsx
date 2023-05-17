@@ -27,6 +27,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
+import {LinearProgress} from "@mui/material";
+import {ErrorSnackBar} from "./ErrorSnackBar";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -122,6 +124,7 @@ useEffect(()=>{
 
     return (
         <div className="App">
+            <ErrorSnackBar />
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -132,6 +135,7 @@ useEffect(()=>{
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <LinearProgress />
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
