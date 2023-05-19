@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useMemo} from 'react'
 import './App.css';
 import { Todolist } from './Todolist';
 import { AddItemForm } from './AddItemForm';
@@ -39,6 +39,8 @@ export type TasksStateType = {
 }
 
 
+
+
 function App() {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
@@ -56,11 +58,7 @@ useEffect(()=>{
 
 },[])
 
-
-
-
-
-    const removeTask = useCallback(function (id: string, todolistId: string) {
+    const removeTask = useCallback( (id: string, todolistId: string) => {
         // @ts-ignore
         dispatch(deleteTasksTC(id, todolistId))
 
@@ -139,6 +137,7 @@ useEffect(()=>{
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
+
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
