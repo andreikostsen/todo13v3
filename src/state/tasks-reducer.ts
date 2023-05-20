@@ -12,6 +12,7 @@ import {
     UpdateTaskModelType
 } from "../api/todolist-api";
 import {AppRootStateType} from "./store";
+import {setAppErrorAC} from "./app-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -156,19 +157,10 @@ export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActi
 export const addTaskAC = (task: TaskType): AddTaskActionType => {
     return {type: 'ADD-TASK', task}
 }
-export const changeTaskStatusAC = (taskId: string, status: TaskStatuses, todolistId: string): ChangeTaskStatusActionType => {
-    return {type: 'CHANGE-TASK-STATUS', status, todolistId, taskId}
-}
-export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string): ChangeTaskTitleActionType => {
-    return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
-}
 
 export const UpdateTaskAC = (todolistId: string, taskId: string, model: TaskType): UpdateTaskActionType => {
-
     return {type: "UPDATE-TASK", todolistId, taskId, model}
-
 }
-
 
 export const setTasksAC = (tasks: Array<TaskType>, todolistId: string): SetTasksActionType => {
     return {type: 'SET-TASKS', tasks, todolistId}
@@ -189,8 +181,16 @@ export const addTasksTC =  (title: string, todolistId: string) =>
     (dispatch: Dispatch) => {
             todolistAPI.createTask(todolistId, title)
                 .then((res) => {
-                    const task = res.data.data.item
-                    dispatch(addTaskAC(task))
+
+                    if(res.data.resultCode == 0) {
+                        const task = res.data.data.item
+                        dispatch(addTaskAC(task))
+                    } else {
+
+                        dispatch(setAppErrorAC(res.data.messages[0]))
+
+                    }
+
 
                 })
 }
