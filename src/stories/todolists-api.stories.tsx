@@ -1,5 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react'
 import {TaskPriorities, TaskStatuses, todolistAPI, UpdateTaskModelType} from '../api/todolist-api';
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import {AddBox} from "@mui/icons-material";
+import {AddItemFormPropsType} from "../AddItemForm";
 
 export default {
     title: 'API'
@@ -106,16 +110,7 @@ export const GetTasks = () => {
             })
     }
 
-    //
-    // useEffect(()=> {
-    //
-    //     const todolistId = '0e79168c-be4f-4612-9188-da48db500ce3'
-    //
-    //     todolistAPI.getTasks(todolistId)
-    //         .then((res) => {
-    //            setState(res.data)
-    //         })
-    // },[])
+
 
         return <div> {JSON.stringify(state)}
 
@@ -203,16 +198,7 @@ export const DeleteTask = () => {
         })
     }
 
-    //
-    // useEffect(()=> {
-   //     const todolistId = '0e79168c-be4f-4612-9188-da48db500ce3'
-   //     const taskId = 'b98c759f-9f2e-4c07-a73c-e44bca99df0a'
-    //     todolistAPI.deleteTask(todolistId, taskId).then((res)=>{
-    //
-    //         setState(res.data)
-    //
-    //     })
-    // },[])
+
 
     return <div> {JSON.stringify(state)}
 
