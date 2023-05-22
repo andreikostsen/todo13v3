@@ -12,7 +12,7 @@ import {
     UpdateTaskModelType
 } from "../api/todolist-api";
 import {AppRootStateType} from "./store";
-import {setAppErrorAC} from "./app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -167,11 +167,17 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistId: string): SetTasks
 }
 
 export const fetchTasksTC =  (todolistId: string) =>
+
+
     (dispatch: Dispatch) => {
+
+        dispatch(setAppStatusAC('loading'))
+
             todolistAPI.getTasks(todolistId)
                 .then((res) => {
                     const tasks = res.data.items
                     dispatch(setTasksAC(tasks, todolistId))
+                    dispatch(setAppStatusAC('succeeded'))
 
                 })
 }
@@ -179,16 +185,20 @@ export const fetchTasksTC =  (todolistId: string) =>
 
 export const addTasksTC =  (title: string, todolistId: string) =>
     (dispatch: Dispatch) => {
+
+    dispatch(setAppStatusAC("loading"))
+
             todolistAPI.createTask(todolistId, title)
                 .then((res) => {
 
                     if(res.data.resultCode == 0) {
                         const task = res.data.data.item
                         dispatch(addTaskAC(task))
+                        dispatch(setAppStatusAC("succeeded"))
                     } else {
 
                         dispatch(setAppErrorAC(res.data.messages[0]))
-
+                        dispatch(setAppStatusAC("failed"))
                     }
 
 
@@ -197,11 +207,14 @@ export const addTasksTC =  (title: string, todolistId: string) =>
 
 export const deleteTasksTC =  (taskId: string, todolistId: string) =>
     (dispatch: Dispatch) => {
+
+        dispatch(setAppStatusAC('loading'))
+
         todolistAPI.deleteTask(todolistId, taskId)
             .then((res) => {
 
                 dispatch(removeTaskAC(taskId, todolistId))
-
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 
@@ -210,10 +223,13 @@ export const deleteTasksTC =  (taskId: string, todolistId: string) =>
 
       (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
+
+
     const state = getState()
 
           const task = state.tasks[todolistId].find(t=>t.id===id)
 
+          dispatch(setAppStatusAC('loading'))
 
           if (task) {
 
@@ -236,6 +252,7 @@ export const deleteTasksTC =  (taskId: string, todolistId: string) =>
                   .then((res) => {
 
                       dispatch(UpdateTaskAC(todolistId,id, model))
+                      dispatch(setAppStatusAC('succeeded'))
 
                   } )
           }

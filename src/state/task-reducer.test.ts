@@ -150,8 +150,8 @@ test("task reducer should change task status", ()=>{
 test("empty tasks array should be added when we add new todolist", ()=>{
 
     const startState: Array<TodolistDomainType>= [
-        {id: v1(), title: "What to 1", addedDate: "", order: 0, filter: "all"},
-        {id: v1(), title: "What to 2", addedDate: "", order: 1,  filter: "all"}
+        {id: v1(), title: "What to 1", addedDate: "", order: 0, filter: "all", entityStatus: "idle"},
+        {id: v1(), title: "What to 2", addedDate: "", order: 1,  filter: "all", entityStatus: "idle"}
     ]
 
 

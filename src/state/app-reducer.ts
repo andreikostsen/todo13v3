@@ -9,7 +9,7 @@ export type InitialStateType = {
 
 const initialState: InitialStateType = {
     status: 'idle',
-    error: "some error"
+    error: null
 }
 
 
