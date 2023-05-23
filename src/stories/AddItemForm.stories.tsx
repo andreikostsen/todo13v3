@@ -18,10 +18,11 @@ const meta: Meta<typeof AddItemForm> = {
 export default meta;
 type Story = StoryObj<typeof AddItemForm>;
 
+const callback = action("plus button pressed")
 // More on component templates:
 // https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-export const AddItemFormStory = (props:any) => {
+export const AddItemFormStory = () => {
 
-    return <AddItemForm addItem={(title) => {alert(title)}} />
+        return <AddItemForm addItem={callback} />
 
 };
