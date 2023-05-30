@@ -13,6 +13,6 @@ export default {
 };
 
 export const AppStory = () => {
-    return <App />
+    return <App demo={true}/>
 
 };

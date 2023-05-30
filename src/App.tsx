@@ -39,10 +39,14 @@ export type TasksStateType = {
 [todolistId: string]: Array<TaskType>
 }
 
+type  PropsType = {
+
+    demo?: boolean
+
+}
 
 
-
-function App() {
+function App({demo = false, ...props}:PropsType) {
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
@@ -60,8 +64,15 @@ function App() {
 
 useEffect(()=>{
 
-    // @ts-ignore
-    // dispatch(fetchTodolistsTC())
+
+    if (demo) {
+        return
+    } else {
+
+        // @ts-ignore
+        dispatch(fetchTodolistsTC())
+    }
+
 
 
 },[])
@@ -167,6 +178,7 @@ useEffect(()=>{
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
+                                        demo = {demo}
                                     />
                                 </Paper>
                             </Grid>
