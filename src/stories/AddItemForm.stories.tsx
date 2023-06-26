@@ -23,7 +23,7 @@ const callback = action("plus button pressed")
 // https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 export const AddItemFormBaseExample = () => {
 
-        return <AddItemForm addItem={callback} disabled={false} />
+        return <AddItemForm addItem={callback} />
 
 };
 

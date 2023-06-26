@@ -20,8 +20,8 @@ export type ChangeTodolistTitleActionType = {
 }
 export type ChangeTodolistFilterActionType = {
     type: 'CHANGE-TODOLIST-FILTER',
-    id: string
-    filter: FilterValuesType
+    id: string,
+    filter: FilterValuesType,
 }
 
 export type SetTodolistsActionType = {
@@ -30,11 +30,19 @@ export type SetTodolistsActionType = {
 
 }
 
+export type changeTodolistEntityStatusActionType = {
+    type: 'CHANGE-TODOLIST-ENTITY-STATUS',
+    id: string,
+    entityStatus: RequestStatusType
+
+}
+
 type ActionsType = RemoveTodolistActionType
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
     | SetTodolistsActionType
+    | changeTodolistEntityStatusActionType
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -43,7 +51,7 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType
 }
 
-export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(tl => tl.id !== action.id)
@@ -53,7 +61,9 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 id: action.todolist.id,
                 title: action.todolist.title,
                 addedDate: action.todolist.addedDate,
-                order: action.todolist.order
+                order: action.todolist.order,
+                entityStatus: "idle",
+                filter: "all",
             }, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
@@ -73,7 +83,12 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return [...state]
         }
         case 'SET-TODOLISTS': {
-            return action.todolists
+             return  action.todolists.map(tl=>({...tl, entityStatus: "idle",filter: "all"}))
+
+        }
+
+        case "CHANGE-TODOLIST-ENTITY-STATUS": {
+            return  state.map(tl=> tl.id === action.id ? {...tl, entityStatus: action.entityStatus} : tl)
         }
 
         default:
@@ -97,6 +112,11 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType): Ch
 export const setTodolistsAC = (todolists: Array<TodolistType>):SetTodolistsActionType => {
     return {type: 'SET-TODOLISTS', todolists}
 }
+
+export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestStatusType):changeTodolistEntityStatusActionType=>{
+    return {type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, entityStatus}
+}
+
 
 export const fetchTodolistsTC = () => {
 

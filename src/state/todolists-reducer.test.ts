@@ -1,5 +1,5 @@
 import {
-    addTodolistAC,
+    addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC, setTodolistsAC, TodolistDomainType,
@@ -56,6 +56,15 @@ test("initial todolists should be setted", ()=>{
     let endState = todolistsReducer([], setTodolistsAC(startState))
 
     expect(endState.length).toBe(2)
+
+})
+
+test("correct entitystatus of todolists should be setted", ()=>{
+
+    let endState = todolistsReducer(startState, changeTodolistEntityStatusAC(startState[0].id, 'loading'))
+
+    expect(endState[0].entityStatus).toBe("loading")
+    expect(endState[1].entityStatus).toBe("idle")
 
 })
 
