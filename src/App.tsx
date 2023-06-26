@@ -153,7 +153,7 @@ useEffect(()=>{
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
 
-                    <AddItemForm addItem={addTodolist}/>
+                    <AddItemForm addItem={addTodolist} disabled={loadingStatus}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {
@@ -163,14 +163,11 @@ useEffect(()=>{
                             return <Grid item key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist
-                                        id={tl.id}
-                                        title={tl.title}
-                                        // tasks={allTodolistTasks}
+                                        todolist={tl}
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeTaskStatus}
-                                        filter={tl.filter}
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
