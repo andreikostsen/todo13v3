@@ -21,8 +21,14 @@ type Story = StoryObj<typeof AddItemForm>;
 const callback = action("plus button pressed")
 // More on component templates:
 // https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-export const AddItemFormStory = () => {
+export const AddItemFormBaseExample = () => {
 
-        return <AddItemForm addItem={callback} />
+        return <AddItemForm addItem={callback} disabled={false} />
+
+};
+
+export const AddItemFormDisabledExample = () => {
+
+        return <AddItemForm addItem={callback} disabled={true} />
 
 };

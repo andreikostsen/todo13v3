@@ -254,7 +254,9 @@ export const deleteTasksTC =  (taskId: string, todolistId: string) =>
                       dispatch(UpdateTaskAC(todolistId,id, model))
                       dispatch(setAppStatusAC('succeeded'))
 
+
                   } )
+
           }
         }
 
