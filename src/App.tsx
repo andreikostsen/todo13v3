@@ -14,8 +14,8 @@ import { Menu } from '@mui/icons-material';
 import {
     addTodolistTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC,
-    removeTodolistTC, TodolistDomainType
+    changeTodolistTitleTC, fetchTodolistsTC,
+    removeTodolistTC, ThunkDispatch, TodolistDomainType
 } from './state/todolists-reducer';
 import {
 
@@ -32,6 +32,7 @@ import {ErrorSnackBar} from "./ErrorSnackBar";
 import {InitialStateType, RequestStatusType} from "./state/app-reducer";
 
 
+
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 
@@ -44,7 +45,7 @@ export type TasksStateType = {
 
 function App() {
 
-    const demo = true
+    const demo = false
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
@@ -115,7 +116,7 @@ useEffect(()=>{
     const removeTodolist = useCallback(function (id: string) {
 
         const thunk = removeTodolistTC(id)
-       // @ts-ignore
+// @ts-ignore
         dispatch(thunk)
 
         // const action = removeTodolistAC(id);
@@ -171,6 +172,7 @@ useEffect(()=>{
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
+                                        demo = {demo}
                                     />
                                 </Paper>
                             </Grid>

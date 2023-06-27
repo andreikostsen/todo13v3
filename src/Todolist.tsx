@@ -12,12 +12,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TodolistDomainType} from "./state/todolists-reducer";
 
-// export type TaskType = {
-//     id: string
-//     title: string
-//     isDone: boolean
-// }
-
 type PropsType = {
     todolist: TodolistDomainType;
     changeFilter: (value: FilterValuesType, todolistId: string) => void
@@ -43,12 +37,9 @@ export const Todolist = React.memo(function (props: PropsType) {
             return
         } else {
             // @ts-ignore
-            dispatch(fetchTasksTC(props.id))
+            dispatch(fetchTasksTC(props.todolist.id))
         }
     }, [])
-
-
-
 
 
     const addTask = useCallback((title: string) => {

@@ -15,7 +15,7 @@ const initialState: InitialStateType = {
 
 type ActionsType = setErrorActionType | setStatusActionType
 
-type setStatusActionType = {
+export type setStatusActionType = {
     type: "APP/SET-STATUS",
     status: RequestStatusType
 }
