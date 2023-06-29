@@ -30,6 +30,9 @@ import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
 import {LinearProgress} from "@mui/material";
 import {ErrorSnackBar} from "./ErrorSnackBar";
 import {InitialStateType, RequestStatusType} from "./state/app-reducer";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "./features/Login";
+import TodolistsList from "./TodolistsList";
 
 
 
@@ -39,8 +42,6 @@ export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TasksStateType = {
 [todolistId: string]: Array<TaskType>
 }
-
-
 
 
 function App() {
@@ -57,84 +58,7 @@ function App() {
 
     }
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
 
-    const dispatch = useDispatch();
-
-
-
-useEffect(()=>{
-
-    if(demo) {
-         return
-} else {
-        // @ts-ignore
-        dispatch(fetchTodolistsTC())
-    }
-
-},[])
-
-    const removeTask = useCallback( (id: string, todolistId: string) => {
-        // @ts-ignore
-        dispatch(deleteTasksTC(id, todolistId))
-
-    }, []);
-
-    const addTask = useCallback(function (title: string, todolistId: string) {
-        // @ts-ignore
-        dispatch(addTasksTC(title, todolistId))
-
-
-    }, []);
-
-    const changeTaskStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-
-        // @ts-ignore
-         dispatch(updateTaskTC(id, {status}, todolistId))
-
-    }, []);
-
-    const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        // @ts-ignore
-        dispatch(updateTaskTC(id, {title: newTitle}, todolistId))
-
-        // const action = changeTaskTitleAC(id, newTitle, todolistId);
-        // dispatch(action);
-    }, []);
-
-
-
-
-
-    const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(todolistId, value);
-        dispatch(action);
-    }, []);
-
-
-
-    const removeTodolist = useCallback(function (id: string) {
-
-        const thunk = removeTodolistTC(id)
-// @ts-ignore
-        dispatch(thunk)
-
-        // const action = removeTodolistAC(id);
-        // dispatch(action);
-    }, []);
-
-    const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const thunk = changeTodolistTitleTC(id, title);
-
-        // @ts-ignore
-        dispatch(thunk);
-    }, []);
-
-    const addTodolist = useCallback((title: string) => {
-        const thunk = addTodolistTC(title);
-        // @ts-ignore
-        dispatch(thunk);
-    }, [dispatch]);
 
     return (
         <div className="App">
@@ -151,35 +75,17 @@ useEffect(()=>{
                 </Toolbar>
                 {loadingStatus&&<LinearProgress />}
             </AppBar>
-            <Container fixed>
-                <Grid container style={{padding: '20px'}}>
+            <Routes>
 
-                    <AddItemForm addItem={addTodolist} disabled={loadingStatus}/>
-                </Grid>
-                <Grid container spacing={3}>
-                    {
-                        todolists.map(tl => {
-                             // let allTodolistTasks = tasks;
+                    <Route path={'/'} element={<TodolistsList />} />
+                    <Route path={'/login'} element={<Login />} />
+                <Route path={'/404'} element={<h1>Page not found: 404</h1>} />
+                <Route path={'*'} element={<Navigate to ={'/404'} />} />
 
-                            return <Grid item key={tl.id}>
-                                <Paper style={{padding: '10px'}}>
-                                    <Todolist
-                                        todolist={tl}
-                                        removeTask={removeTask}
-                                        changeFilter={changeFilter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeTaskStatus}
-                                        removeTodolist={removeTodolist}
-                                        changeTaskTitle={changeTaskTitle}
-                                        changeTodolistTitle={changeTodolistTitle}
-                                        demo = {demo}
-                                    />
-                                </Paper>
-                            </Grid>
-                        })
-                    }
-                </Grid>
-            </Container>
+
+
+            </Routes>
+
         </div>
     );
 }
