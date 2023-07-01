@@ -175,4 +175,26 @@ export const todolistAPI = {
         return promise
 
     },
+
+    authMe() {
+
+        const promise = instance.get<TaskResponseType>(
+            `/auth/me`,
+        )
+
+        return promise
+
+    },
+
+    authLogin(email: string, password: string, rememberMe: boolean) {
+
+        const promise = instance.post<TaskResponseType>(
+            `/auth/login`,
+        )
+
+        return promise
+
+    },
+
+
 }
