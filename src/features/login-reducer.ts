@@ -1,18 +1,16 @@
+import {Dispatch} from "redux";
+import {todolistAPI} from "../api/todolist-api";
 
 export type CheckIfAuthorizedActionType = {
     type: 'CHECK-IF-AUTHORIZED',
 }
 export type AuthorizeActionType = {
-    type: 'AUTHORIZE',
-    email: string,
-    password: string,
-    rememberMe: boolean,
+    type: 'AUTHORIZE'
 }
 
 type InitialStateType = {
     isAuthorized: boolean
 }
-
 
 type ActionsType = CheckIfAuthorizedActionType | AuthorizeActionType
 
@@ -20,32 +18,47 @@ const initialState: InitialStateType = {
     isAuthorized: false
 }
 
-
-
-
-export const loginReducer = (state: InitialStateType = initialState, action: ActionsType) => {
-
+export const loginReducer = (state: InitialStateType = initialState, action: ActionsType):InitialStateType => {
 
     switch (action.type) {
         case 'CHECK-IF-AUTHORIZED': {
-
             return state;
         }
         case 'AUTHORIZE': {
 
-            return state;
+            return {...state, isAuthorized: true};
         }
-
         default:
             return state;
     }
 }
-//
-// export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
-//     return {type: 'REMOVE-TASK', taskId: taskId, todolistId: todolistId}
-// }
-//
-//
+
+export const AuthorizeAC = (): AuthorizeActionType => {
+    return {type: 'AUTHORIZE'}
+}
+
+export const authorizeTC = (email: string, password: string, rememberMe: boolean) =>
+
+    (dispatch: Dispatch) => {
+
+    todolistAPI.authLogin(email, password, rememberMe)
+        .then((res) => {
+
+            if (res.data.resultCode === 0) {
+                dispatch(AuthorizeAC())
+            }
+
+            // else if (res.data.resultCode === 1) {
+            //
+            //     dispatch(AuthorizeAC())
+            //
+            // }
+
+        })
+    }
+
+
+
 // export const addTasksTC = (title: string, todolistId: string) =>
 //     (dispatch: Dispatch) => {
 //

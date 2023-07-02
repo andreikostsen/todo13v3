@@ -1,29 +1,14 @@
 import React, {useCallback, useEffect, useMemo} from 'react'
 import './App.css';
-import { Todolist } from './Todolist';
-import { AddItemForm } from './AddItemForm';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+
 import { Menu } from '@mui/icons-material';
-import {
-    addTodolistTC,
-    changeTodolistFilterAC,
-    changeTodolistTitleTC, fetchTodolistsTC,
-    removeTodolistTC, ThunkDispatch, TodolistDomainType
-} from './state/todolists-reducer';
-import {
 
-    addTasksTC,
-     deleteTasksTC,
-    updateTaskTC
-
-} from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
@@ -47,6 +32,8 @@ export type TasksStateType = {
 function App() {
 
     const demo = false
+
+    const isAuthorized = useSelector<AppRootStateType>(state => state.login.isAuthorized)
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
@@ -77,7 +64,7 @@ function App() {
             </AppBar>
             <Routes>
 
-                    <Route path={'/'} element={<TodolistsList />} />
+                    <Route path={'/'} element={isAuthorized?<TodolistsList />:<Login />} />
                     <Route path={'/login'} element={<Login />} />
                 <Route path={'/404'} element={<h1>Page not found: 404</h1>} />
                 <Route path={'*'} element={<Navigate to ={'/404'} />} />

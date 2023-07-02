@@ -8,8 +8,13 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {focusElement} from "@testing-library/user-event/event/focus";
+import {useDispatch} from "react-redux";
+import {authorizeTC} from "./login-reducer";
 
 export const  Login = () => {
+
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -18,7 +23,12 @@ export const  Login = () => {
             rememberMe: false
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            console.log("auth request started")
+
+            // @ts-ignore
+            dispatch(authorizeTC(values.email, values.password, values.rememberMe))
+
         },
     });
 

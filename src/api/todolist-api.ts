@@ -190,6 +190,11 @@ export const todolistAPI = {
 
         const promise = instance.post<TaskResponseType>(
             `/auth/login`,
+            {
+                email,
+                password,
+                rememberMe
+            }
         )
 
         return promise
