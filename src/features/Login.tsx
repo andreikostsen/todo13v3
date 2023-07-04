@@ -8,20 +8,28 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {authorizeTC} from "./login-reducer";
-import * as yup from 'yup';
+import * as yup from "yup";
+import {AppRootStateType} from "../state/store";
+import {Alert} from "@mui/material";
 
 
 const validationSchema = yup.object({
-    firstName: yup.string().required('Required field'),
-    lastName: yup.string().required('Required field'),
-    country: yup.string().required('Required field'),
-    age: yup.number().required('Required field'),
+    email: yup.string().required('Required field'),
+    password: yup.string().required('Required field'),
+
 })
 
 
+//
+// type PropsType = {
+//     loginError?: string
+// }
+
 export const  Login = () => {
+
+    const loginError =  useSelector<AppRootStateType, string | null>(state => state.login.loginError)
 
     const dispatch = useDispatch()
 
@@ -79,6 +87,8 @@ export const  Login = () => {
                                error={formik.errors.password?true:false}
 
                     />
+
+                    {loginError&&<Alert severity="error">{loginError}</Alert>}
 
                     <FormControlLabel label={'Remember me'}
                                       control={<Checkbox checked={formik.values.rememberMe} />}

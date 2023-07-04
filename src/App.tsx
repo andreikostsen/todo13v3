@@ -33,7 +33,9 @@ function App() {
 
     const demo = false
 
-    const isAuthorized = useSelector<AppRootStateType>(state => state.login.isAuthorized)
+    const isAuthorized = useSelector<AppRootStateType, boolean>(state => state.login.isAuthorized)
+
+
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 

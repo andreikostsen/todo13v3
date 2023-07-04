@@ -1,31 +1,33 @@
 import {Dispatch} from "redux";
 import {todolistAPI} from "../api/todolist-api";
 
-export type CheckIfAuthorizedActionType = {
-    type: 'CHECK-IF-AUTHORIZED',
+export type FetchLoginErrorActionType = {
+    type: 'FETCH-LOGIN-ERROR',
+    error: string | null
 }
 export type AuthorizeActionType = {
     type: 'AUTHORIZE'
 }
 
-type InitialStateType = {
-    isAuthorized: boolean
+export type InitialStateType = {
+    isAuthorized: boolean,
+    loginError: string | null
 }
 
-type ActionsType = CheckIfAuthorizedActionType | AuthorizeActionType
+type ActionsType = FetchLoginErrorActionType | AuthorizeActionType
 
 const initialState: InitialStateType = {
-    isAuthorized: false
+    isAuthorized: false,
+    loginError: null
 }
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionsType):InitialStateType => {
 
     switch (action.type) {
-        case 'CHECK-IF-AUTHORIZED': {
-            return state;
+        case 'FETCH-LOGIN-ERROR': {
+            return {...state, loginError: action.error};
         }
         case 'AUTHORIZE': {
-
             return {...state, isAuthorized: true};
         }
         default:
@@ -35,6 +37,10 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
 
 export const AuthorizeAC = (): AuthorizeActionType => {
     return {type: 'AUTHORIZE'}
+}
+
+export const FetchLoginErrorAC = (error: string):FetchLoginErrorActionType => {
+    return {type: 'FETCH-LOGIN-ERROR', error}
 }
 
 export const authorizeTC = (email: string, password: string, rememberMe: boolean) =>
@@ -48,52 +54,14 @@ export const authorizeTC = (email: string, password: string, rememberMe: boolean
                 dispatch(AuthorizeAC())
             }
 
-            // else if (res.data.resultCode === 1) {
-            //
-            //     dispatch(AuthorizeAC())
-            //
-            // }
+            else   {
+
+                dispatch(FetchLoginErrorAC(res.data.messages[0]))
+
+            }
 
         })
     }
-
-
-
-// export const addTasksTC = (title: string, todolistId: string) =>
-//     (dispatch: Dispatch) => {
-//
-//         dispatch(setAppStatusAC("loading"))
-//
-//         todolistAPI.createTask(todolistId, title)
-//             .then((res) => {
-//
-//                 if (res.data.resultCode == 0) {
-//                     const task = res.data.data.item
-//                     dispatch(addTaskAC(task))
-//                     dispatch(setAppStatusAC("succeeded"))
-//                 } else {
-//
-//                     if (res.data.messages.length) {
-//                         handleServerAppError(res, dispatch);
-//                         // dispatch(setAppErrorAC(res.data.messages[0]))
-//                         // dispatch(setAppStatusAC("failed"))
-//
-//                     }
-//
-//                 }
-//
-//
-//             })
-//             .catch((error) => {
-//                 handleServerNetworkError(error, dispatch);
-//                 }
-//             )
-//     }
-
-
-
-
-
 
 
 
