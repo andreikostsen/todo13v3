@@ -8,9 +8,18 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {focusElement} from "@testing-library/user-event/event/focus";
 import {useDispatch} from "react-redux";
 import {authorizeTC} from "./login-reducer";
+import * as yup from 'yup';
+
+
+const validationSchema = yup.object({
+    firstName: yup.string().required('Required field'),
+    lastName: yup.string().required('Required field'),
+    country: yup.string().required('Required field'),
+    age: yup.number().required('Required field'),
+})
+
 
 export const  Login = () => {
 
@@ -22,14 +31,15 @@ export const  Login = () => {
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
+          onSubmit: values => {
+
             // alert(JSON.stringify(values, null, 2));
             console.log("auth request started")
-
             // @ts-ignore
             dispatch(authorizeTC(values.email, values.password, values.rememberMe))
 
         },
+        validationSchema
     });
 
     return <Grid container justifyContent={'center'}>
@@ -47,12 +57,17 @@ export const  Login = () => {
                     <p>Password: free</p>
                 </FormLabel>
                 <FormGroup>
-                    <TextField label="Email" margin="normal"
-                               id="email"
-                               name="email"
-                               type="email"
-                               onChange={formik.handleChange}
-                               value={formik.values.email}
+                    <TextField
+
+                        label="Email"
+                        margin="normal"
+                        id="email"
+                        name="email"
+                        type="email"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                        helperText={formik.errors.email && formik.touched.email && `${formik.errors.email}`}
+                        error={formik.errors.email?true:false}
                     />
                     <TextField type="password" label="Password"
                                margin="normal"
@@ -60,6 +75,8 @@ export const  Login = () => {
                                name="password"
                                onChange={formik.handleChange}
                                value={formik.values.password}
+                               helperText={formik.errors.password && formik.touched.password && `${formik.errors.password}`}
+                               error={formik.errors.password?true:false}
 
                     />
 
