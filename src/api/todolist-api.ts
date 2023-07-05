@@ -201,5 +201,15 @@ export const todolistAPI = {
 
     },
 
+    authLogOut() {
+
+        const promise = instance.delete<TaskResponseType>(
+            `/auth/login`,
+        )
+
+        return promise
+
+    },
+
 
 }

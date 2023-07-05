@@ -17,9 +17,16 @@ test("login reducer should fetch correct login error from backend", ()=>{
 
 test("login reducer should set correct isAuthorized status", ()=>{
 
-    const endState = loginReducer(initialState, AuthorizeAC())
+    const endState = loginReducer(initialState, AuthorizeAC(true))
     expect(initialState.isAuthorized).toBe(false)
     expect(endState.isAuthorized).toBe(true)
+
+})
+
+test("login reducer should set correct isAuthorized status when user logout", ()=>{
+
+    const endState = loginReducer(initialState, AuthorizeAC(false))
+    expect(endState.isAuthorized).toBe(false)
 
 })
 

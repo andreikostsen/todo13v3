@@ -18,6 +18,7 @@ import {InitialStateType, RequestStatusType} from "./state/app-reducer";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login";
 import TodolistsList from "./TodolistsList";
+import {CheckIfUserAuthorizedTC, LogOutTC} from "./features/login-reducer";
 
 
 
@@ -33,9 +34,12 @@ function App() {
 
     const demo = false
 
+const dispatch = useDispatch()
+
+    // @ts-ignore
+    dispatch(CheckIfUserAuthorizedTC())
+
     const isAuthorized = useSelector<AppRootStateType, boolean>(state => state.login.isAuthorized)
-
-
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
@@ -47,6 +51,12 @@ function App() {
 
     }
 
+
+   const logoutHandler = () => {
+
+       // @ts-ignore
+       dispatch(LogOutTC())
+   }
 
 
     return (
@@ -60,14 +70,14 @@ function App() {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit"  onClick={logoutHandler}>Logout</Button>
                 </Toolbar>
                 {loadingStatus&&<LinearProgress />}
             </AppBar>
             <Routes>
 
                     <Route path={'/'} element={isAuthorized?<TodolistsList />:<Login />} />
-                    <Route path={'/login'} element={<Login />} />
+                    <Route path={'/login'} element={isAuthorized?<TodolistsList />:<Login />} />
                 <Route path={'/404'} element={<h1>Page not found: 404</h1>} />
                 <Route path={'*'} element={<Navigate to ={'/404'} />} />
 

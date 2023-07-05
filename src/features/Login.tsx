@@ -22,16 +22,12 @@ const validationSchema = yup.object({
 })
 
 
-//
-// type PropsType = {
-//     loginError?: string
-// }
 
 export const  Login = () => {
 
     const loginError =  useSelector<AppRootStateType, string | null>(state => state.login.loginError)
 
-    const dispatch = useDispatch()
+        const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
