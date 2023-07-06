@@ -93,11 +93,11 @@ export const CheckIfUserAuthorizedTC = () =>
 
             }
 
-            else   {
-
-                dispatch(FetchLoginErrorAC(res.data.messages[0]))
-
-            }
+            // else   {
+            //
+            //     dispatch(FetchLoginErrorAC(res.data.messages[0]))
+            //
+            // }
 
         })
     }
